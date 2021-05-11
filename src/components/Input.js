@@ -1,21 +1,12 @@
 import React,{useState} from 'react'
 
-const Input = () => {
-  const [text,setText] = useState("")
-
-  const add_text= (event) => {
-    setText(event)
-  }
-
-  const add_todo = () => {
-    console.log(text)
-  }
-
+const Input = (props) => {
+  const {input_text,text,input_button} = props
   return (
     <div className="input-area">
-      <input type="text" placeholder="入力してください" onChange={(e) => add_text(e.target.value) }/>
-      <button onClick={ add_todo }>追加</button>
-    </div>
+    <input type="text" placeholder="入力してください" onChange={(e) => input_text(e.target.value)} value={text} />
+    <button onClick={input_button}>追加</button>
+  </div>
   )
 }
 

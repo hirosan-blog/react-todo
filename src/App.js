@@ -1,9 +1,11 @@
 
 import './style.css';
 import React,{useState} from 'react'
+import Input from './components/Input';
+import NowTodo from './components/NowTodo';
+import Finish from './components/Finish';
 
 function App() {
-
   const [text,setText] = useState("")
   const [nowtodo,setNowTodo] = useState([])
   const [completetodo,setCompleteTodo] = useState([])
@@ -13,6 +15,7 @@ function App() {
   }
 
   const input_button = () => {
+    if(text === "") return;
     const newtodo = [...nowtodo,text];
     setNowTodo(newtodo)
     setText("")
@@ -31,11 +34,10 @@ function App() {
     setNowTodo(CopyTodo)
     setCompleteTodo(bbb)
   }
-
+  
   const RemoveTodo = (index) => {
     const CopyTodo = [...completetodo]
     CopyTodo.splice(index,1)
-
     const bbb = [...nowtodo,completetodo[index]]
     setCompleteTodo(CopyTodo)
     setNowTodo(bbb)
@@ -43,39 +45,9 @@ function App() {
 
   return (
     <>
-      <div className="input-area">
-        <input type="text" placeholder="入力してください" onChange={(e) => input_text(e.target.value)} value={text} />
-        <button onClick={input_button}>追加</button>
-      </div>
-
-      <div className="incomplete-area">
-        <p className="title">未完了のTodo</p>
-        <ul>
-          {nowtodo.map((todo,index) => {
-            return(
-              <div className="list-row" key={index}>
-              <li>{todo}</li>
-              <button onClick={() => DoneTodo(index)}>完了</button>
-              <button onClick={() => DeleteTodo(index)}>削除</button>
-            </div>
-            )
-          })}
-        </ul>
-      </div>
-
-      <div className="complete-area">
-        <p className="title">完了済みのTodo</p>
-        <ul>
-          {completetodo.map((todo,index) => {
-            return(
-              <div className="list-row" key={index}>
-              <li>{todo}</li>
-              <button onClick={() => RemoveTodo(index)}>戻す</button>
-            </div>
-            )
-          })}
-        </ul>
-      </div>
+    <Input input_text={input_text} input_button={input_button} text={text}/>
+    <NowTodo nowtodo={nowtodo} DoneTodo={DoneTodo} DeleteTodo={DeleteTodo} />
+    <Finish completetodo={completetodo} RemoveTodo={RemoveTodo}/>
     </>
   );
 }
